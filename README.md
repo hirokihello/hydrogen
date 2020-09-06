@@ -6,7 +6,8 @@ this uses virtual dom and this is not for production but study.
 
 #### install
 
-** you should specify github registry to install hydrogen**
+**you should specify github registry to install hydrogen**
+
 because it is published in github registry
 ```
 npm i @hirokihello/hydrogen 
