@@ -62,6 +62,8 @@ function setAttributes(target: HTMLElement, attrs: Attributes): void {
       const eventName = attr.slice(2);
       target.addEventListener(eventName, attrs[attr] as EventListener)
     } else {
+      console.log({attr})
+      console.log({target})
       target.setAttribute(attr, attrs[attr] as string);
     }
   }
@@ -80,6 +82,7 @@ export function createElement(node: NodeType): HTMLElement | Text {
 }
 
 function hasChanged(a: NodeType, b: NodeType): ChangedType {
+  console.log({a, b})
   if (typeof a !== typeof b) {
     // そもそも比較対象のオブジェクトが異なった場合はタイプ不一致を返す
     return ChangedType.Type
@@ -91,7 +94,6 @@ function hasChanged(a: NodeType, b: NodeType): ChangedType {
   if (isVNode(a) && isVNode(b)) {
     // それぞれのnode名(inputか、pか)が変更されているか確認
     if (a.nodeName !== b.nodeName) return ChangedType.Node
-
     if (a.attributes.value !== b.attributes.value) return ChangedType.Value
     if (JSON.stringify(a.attributes) !== JSON.stringify(b.attributes)) return ChangedType.Attr;
   }
@@ -125,17 +127,17 @@ export function updateElement(
   parent: HTMLElement,
   oldNode: NodeType,
   newNode: NodeType,
-  index
+  index=0
 ): void {
-  if(!oldNode) {
+  // このままだと0がold nodeの場合に条件に引っかかってしまうため
+  if(oldNode !== 0 && !oldNode) {
     parent.appendChild(createElement(newNode))
     return
   }
 
   const target = parent.childNodes[index]
-console.log({target})
-  if (!target) return
 
+  console.log({parent, target, oldNode, newNode})
   // newNodeがない場合はそのノードを削除する
   if (!newNode) {
     parent.removeChild(target)

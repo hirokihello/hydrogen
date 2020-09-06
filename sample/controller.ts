@@ -67,8 +67,10 @@ export class App<State> {
    */
   private render(): void {
     if (this.oldNode) {
-      updateElement(this.el, this.oldNode, this.newNode, 0);
+      updateElement(this.el, this.oldNode, this.newNode);
     } else {
+      // デフォルトで、div#appに空のtext nodeが生成されるので強制的に消している。
+      this.el.removeChild(this.el.childNodes[0]);
       this.el.appendChild(createElement(this.newNode));
     }
 
