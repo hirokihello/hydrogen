@@ -1,4 +1,5 @@
-import { H2, View, ActionTree } from "../src/index";
+// import { H2, View, ActionTree } from "../src/dist/index";
+import { H2, ActionTree, View } from "@hirokihello/hydrogen";
 
 type State = typeof state;
 type Actions = typeof actions;
