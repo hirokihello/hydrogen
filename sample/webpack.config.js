@@ -1,19 +1,34 @@
 const path = require('path');
 
 module.exports = {
-  entry: './index.ts',
+  entry: './index.tsx',
   mode: 'development',
   module: {
     rules: [
       {
-        test: /\.ts$/,
-        use: 'ts-loader',
+        test: /\.ts[x]?$/,
+        use: [
+          // 下から順に処理される
+          { loader: "babel-loader",
+            options: {
+              "plugins": [
+                [
+                  "@babel/transform-react-jsx",
+                  {
+                    "pragma": "H2.h" // default pragma is React.createElement
+                  }
+                ]
+              ]
+            }
+          },
+          { loader: "ts-loader" }
+        ],
       },
     ],
   },
   resolve: {
     extensions: [
-      '.ts', '.js', 'html'
+      '.ts', '.js', '.tsx'
     ],
   },
   output: {
@@ -23,5 +38,5 @@ module.exports = {
   devServer: {
     contentBase: './dist',
     hot: true,
-  },
+  }
 };

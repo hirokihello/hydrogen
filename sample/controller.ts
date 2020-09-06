@@ -1,18 +1,20 @@
 // app.ts
 import { ActionTree } from "./action";
 import {  createElement, updateElement } from "./view";
-import { View, VNode, AppConstructor } from "./types";
+import { View, VNode, H2Constructor } from "./types";
+import { h as hFunc } from "./view";
 
-export class App<State> {
+export class H2<State> {
   private readonly el: HTMLElement;
   private readonly view: View<State, ActionTree<State>>
   private readonly state: State;
   private readonly actions: ActionTree<State>;
+  readonly h: Function;
   private oldNode: VNode;
   private newNode: VNode;
   private skipRender: boolean;
 
-  constructor(params: AppConstructor<State>) {
+  constructor(params: H2Constructor<State>) {
     // paramsのelがHTMLElementならそれを返し、stringならそれを探してそのelementをelに代入する
     this.el =
       typeof params.el === "string"
@@ -23,6 +25,8 @@ export class App<State> {
     this.actions = this.dispatchAction(params.actions);
     this.resolveNode();
   }
+
+  static h = hFunc
 
   /**
    * ActionにStateを渡し、新しい仮想DOMを作る

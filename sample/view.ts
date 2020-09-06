@@ -62,8 +62,6 @@ function setAttributes(target: HTMLElement, attrs: Attributes): void {
       const eventName = attr.slice(2);
       target.addEventListener(eventName, attrs[attr] as EventListener)
     } else {
-      console.log({attr})
-      console.log({target})
       target.setAttribute(attr, attrs[attr] as string);
     }
   }
@@ -94,7 +92,7 @@ function hasChanged(a: NodeType, b: NodeType): ChangedType {
   if (isVNode(a) && isVNode(b)) {
     // それぞれのnode名(inputか、pか)が変更されているか確認
     if (a.nodeName !== b.nodeName) return ChangedType.Node
-    if (a.attributes.value !== b.attributes.value) return ChangedType.Value
+    if (a.attributes?.value !== b.attributes?.value) return ChangedType.Value
     if (JSON.stringify(a.attributes) !== JSON.stringify(b.attributes)) return ChangedType.Attr;
   }
 

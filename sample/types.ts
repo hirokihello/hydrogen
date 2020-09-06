@@ -11,7 +11,7 @@ export interface VNode {
   children: NodeType[];
 }
 
-export interface AppConstructor<State> {
+export interface H2Constructor<State> {
   el: HTMLElement | string;
   view: View<State, ActionTree<State>>;
   state: State;
