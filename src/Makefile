@@ -9,4 +9,10 @@ install:
 
 .PHONY: build
 build:
-	npm run build
+	rm -rf ./dist/*
+	npm run build:ts
+
+
+.PHONY: publish
+publish:
+	npm publish
