@@ -15,7 +15,7 @@ module.exports = {
                 [
                   "@babel/transform-react-jsx",
                   {
-                    "pragma": "H2.h" // default pragma is React.createElement
+                    "pragma": "H2.h"
                   }
                 ]
               ]
@@ -32,11 +32,11 @@ module.exports = {
     ],
   },
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, '.'),
     filename: 'bundle.js'
   },
   devServer: {
-    contentBase: './dist',
+    contentBase: './',
     hot: true,
   }
 };

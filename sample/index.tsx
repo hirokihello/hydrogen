@@ -1,6 +1,4 @@
-import { ActionTree } from "./action";
-import { H2 } from "./controller";
-import { View } from "./types";
+import { H2, View, ActionTree } from "../src/index";
 
 type State = typeof state;
 type Actions = typeof actions;
