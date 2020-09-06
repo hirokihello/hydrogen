@@ -67,7 +67,7 @@ export class App<State> {
    */
   private render(): void {
     if (this.oldNode) {
-      updateElement(this.el, this.oldNode, this.newNode);
+      updateElement(this.el, this.oldNode, this.newNode, 0);
     } else {
       this.el.appendChild(createElement(this.newNode));
     }

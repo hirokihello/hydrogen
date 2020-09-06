@@ -37,7 +37,7 @@ export function h (
   // pとかh1とかのうちのいずれか
   nodeName: keyof HTMLElementTagNameMap,
   attributes: Attributes,
-  children: NodeType[]
+  ...children: NodeType[]
 ) {
   return {
     nodeName,
@@ -62,20 +62,21 @@ function setAttributes(target: HTMLElement, attrs: Attributes): void {
       const eventName = attr.slice(2);
       target.addEventListener(eventName, attrs[attr] as EventListener)
     } else {
-      console.log(attr)
       target.setAttribute(attr, attrs[attr] as string);
     }
   }
 }
 
 export function createElement(node: NodeType): HTMLElement | Text {
-  if(!isVNode(node)) return  document.createTextNode(node.toString())
+  if (!isVNode(node)) {
+    return document.createTextNode(node.toString());
+  }
 
-  const el = document.createElement(node.nodeName)
-  setAttributes(el, node.attributes)
-  node.children.forEach(child => el.appendChild(createElement(child)))
+  const el = document.createElement(node.nodeName);
+  setAttributes(el, node.attributes);
+  node.children.forEach(child => el.appendChild(createElement(child)));
 
-  return el
+  return el;
 }
 
 function hasChanged(a: NodeType, b: NodeType): ChangedType {
@@ -88,9 +89,10 @@ function hasChanged(a: NodeType, b: NodeType): ChangedType {
   if (!isVNode(a) && a !== b) return ChangedType.Text;
 
   if (isVNode(a) && isVNode(b)) {
+    // それぞれのnode名(inputか、pか)が変更されているか確認
     if (a.nodeName !== b.nodeName) return ChangedType.Node
 
-    if (a.attributes?.value !== b.attributes?.value) return ChangedType.Value
+    if (a.attributes.value !== b.attributes.value) return ChangedType.Value
     if (JSON.stringify(a.attributes) !== JSON.stringify(b.attributes)) return ChangedType.Attr;
   }
 
@@ -123,14 +125,16 @@ export function updateElement(
   parent: HTMLElement,
   oldNode: NodeType,
   newNode: NodeType,
-  index=0
+  index
 ): void {
   if(!oldNode) {
-    parent?.appendChild(createElement(newNode))
+    parent.appendChild(createElement(newNode))
     return
   }
-  console.log({parent, oldNode, newNode, index})
-  const target = parent?.childNodes[index]
+
+  const target = parent.childNodes[index]
+console.log({target})
+  if (!target) return
 
   // newNodeがない場合はそのノードを削除する
   if (!newNode) {
@@ -145,28 +149,22 @@ export function updateElement(
     case ChangedType.Type:
     case ChangedType.Text:
     case ChangedType.Node:
-      console.log({target})
-      console.log(createElement(newNode))
       parent.replaceChild(createElement(newNode), target)
-      // return だとupdateElementから抜けてしまうので、breakにした。これが合っているのかは知らない。
-      // return;
-      break
+      return;
     case ChangedType.Value:
       // valueの変更時にNodeを置き換えてしまうとフォーカスが外れてしまうため
       updateValue(
         target as HTMLInputElement,
         (newNode as VNode).attributes.value as string
       );
-      // return;
-      break;
+      return;
     case ChangedType.Attr:
       updateAttributes(
         target as HTMLElement,
         (oldNode as VNode).attributes,
         (newNode as VNode).attributes
       );
-      // return;
-      break;
+      return;
   }
 
   //　再帰的にupdateElementを呼び出し、childrenの更新処理を行う

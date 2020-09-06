@@ -19,18 +19,20 @@ const actions: ActionTree<State> = {
 const view: View<State, Actions> = (state, actions) => {
   return h(
     "div",
-    { class: "hgoehgeo"},
-    [
-      h("p", {}, [state.count]),
-      h(
-        "button",
-        { type: "button", onclick: () => actions.increment(state) },
-        ["count up"]
-      )
-    ]
+    { class: "hgoehgeo" },
+    h("p", {}, state.count),
+    h(
+      "button",
+      { type: "button", onclick: () => actions.increment(state) },
+      "count up"
+    ),
+    h(
+      "p",
+      {},
+      "count up hirokihello parse test"
+    )
   );
 };
-
 new App<State>({
   el: "#app",
   state,
