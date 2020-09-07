@@ -10,7 +10,23 @@ this uses virtual dom and this is not for production but study.
 
 because it is published in github registry
 ```
-npm i @hirokihello/hydrogen 
+npm i @hirokihello/hydrogen @hirokihello/babel-preset-hydrogen -D
+```
+
+add your webpack.config
+
+```
+module.exports = {
+  ...,
+  use: [
+    { loader: "babel-loader",
+      options: {
+        "presets": ["@hirokihello/babel-preset-hydrogen"]
+      }
+    },
+  ],
+  ...
+}
 ```
 
 #### sample code
