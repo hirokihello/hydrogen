@@ -1,6 +1,6 @@
 // app.ts
 import { ActionTree } from "./action";
-import {  createElement, updateElement } from "./view";
+import { createElement, updateElement } from "./view";
 import { View, VNode, H2Constructor } from "./types";
 import { h as hFunc } from "./view";
 
@@ -73,8 +73,9 @@ export class H2<State> {
     if (this.oldNode) {
       updateElement(this.el, this.oldNode, this.newNode);
     } else {
-      // デフォルトで、div#appに空のtext nodeが生成されるので強制的に消している。
-      this.el.removeChild(this.el.childNodes[0]);
+      // デフォルトで、なぜか開発時にdiv#appに空のtext nodeが生成されるので強制的に消している。
+      if (this.el.childNodes.length !== 0) this.el.childNodes.forEach(child => this.el.removeChild(child));
+
       this.el.appendChild(createElement(this.newNode));
     }
 
