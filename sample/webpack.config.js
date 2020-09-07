@@ -10,16 +10,9 @@ module.exports = {
         use: [
           // 下から順に処理される
           { loader: "babel-loader",
-            options: {
-              "plugins": [
-                [
-                  "@babel/transform-react-jsx",
-                  {
-                    "pragma": "H2.h"
-                  }
-                ]
-              ]
-            }
+          options: {
+            "presets": ["@hirokihello/babel-preset-hydrogen"]
+          }
           },
           { loader: "ts-loader" }
         ],

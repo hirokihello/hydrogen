@@ -28,6 +28,6 @@
     "./index.tsx"
   ],
   "dependencies": {
-    "@hirokihello/hydrogen": "^1.0.6"
+    "@hirokihello/babel-preset-hydrogen": "^1.0.1"
   }
 }
